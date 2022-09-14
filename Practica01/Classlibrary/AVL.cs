@@ -12,7 +12,7 @@ namespace Classlibrary
         public List<T> TreeList;
         public List<T> SearchTree;
         public List<T> CompaniesTree;
-        public List<T> Decoded; //dpi decodificados
+        public List<string> Decoded; //dpi decodificados
         public List<string> Encoded; //dpi codificados
         public int rotations = 0;
         public int height = 0;
@@ -25,7 +25,7 @@ namespace Classlibrary
             SearchTree = new List<T>();
             CompaniesTree = new List<T>();
             Encoded = new List<string>();
-            Decoded = new List<T>();
+            Decoded = new List<string>();
         }
 
 

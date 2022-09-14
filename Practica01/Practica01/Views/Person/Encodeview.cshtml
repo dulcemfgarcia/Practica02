@@ -36,17 +36,29 @@
             <th>
                 Nombre
             </th>
+            <th>
+                Datebirth
+            </th>
+            <th>
+                Address
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.CompaniesTree)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.name)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.datebirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.address)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
@@ -60,5 +72,5 @@
     }
 </div>
 <div>
-    <a asp-action="Menu">Regresar al Inicio</a> | <a asp-action="Index">Regresar a la lista de Pacientes</a>
+    <a asp-action="Index">Regresar a la lista de reclutas</a>
 </div>

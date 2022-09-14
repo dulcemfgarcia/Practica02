@@ -5,15 +5,6 @@
     ViewData["Title"] = "Index";
 }
 
-<h4 class="black">Filtros de búsqueda</h4>
-
-<form asp-action="Search" method="post">
-    <div class="input-group input-group-lg">
-        <input type="type" name="dpi" value="" />
-        <button class="btn btn-outline-dark black">Buscar DPI</button>
-    </div>
-</form>
-
 @if (Model.TreeList.Count != 0)
 {
 

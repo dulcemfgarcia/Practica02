@@ -39,6 +39,11 @@ namespace Practica01.Controllers
             return View(Singleton.Instance.AVLnames);
         }
 
+        public IActionResult Decodeview()
+        {
+            return View(Singleton.Instance.AVLnames);
+        }
+
         //Funciones para cargar datos en archivos .csv
 
         public ActionResult Reading()
@@ -156,8 +161,42 @@ namespace Practica01.Controllers
                             final = final+""+((bit ? 1 : 0) + "");
                         }
                         Singleton.Instance.AVLnames.Encoded.Add(final);
+                        //Singleton.Instance.AVLnames.CompaniesTree[i].encode[i] = final;
                     }
                     return RedirectToAction(nameof(Encodeview));
+                }
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EncontrarDPIDecodificado(string decodeData)
+        {
+            Singleton.Instance.AVLnames.Encoded.Clear();
+            try
+            {
+                dataEncode validate = Person.dataEncode;
+                if (decodeData == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    Singleton.Instance.AVLnames.InOrder2(validate, decodeData);
+                    for (int i = 0; i < Singleton.Instance.AVLnames.CompaniesTree.Count; i++)
+                    {
+                        string final = "";
+                        string concatenado = decodeData + "" + Singleton.Instance.AVLnames.CompaniesTree[i].dpi;
+                        huffmanT.Build(concatenado);
+                        BitArray encoded = huffmanT.Encode(concatenado);
+                        string decoded = huffmanT.Decode(encoded);
+                        Singleton.Instance.AVLnames.Decoded.Add(decoded);
+                    }
+                    return RedirectToAction(nameof(Decodeview));
                 }
             }
             catch
