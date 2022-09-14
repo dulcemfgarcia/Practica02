@@ -12,11 +12,13 @@ namespace Practica01.Models.Data
 
         public AVL<Person> AVLnames;
         public AVL<Person> AVLDpi;
+        public List<string> codificado;
 
         public Singleton()
         {
             AVLnames = new AVL<Person>();
             AVLDpi = new AVL<Person>();
+            codificado = new List<string>();
         }
         public static Singleton Instance
         {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Classlibrary;
 
 namespace Practica01.Models
 {
@@ -30,6 +31,17 @@ namespace Practica01.Models
             return person1.dpi.CompareTo(person2.dpi);
         };
 
+        public static int dataEncode (Person person1, string company)
+        {
+            if (person1.companies.Contains(company))
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
         public static Person PatchData(Person person1, Person person2)
         {
             Person resultante = new Person();

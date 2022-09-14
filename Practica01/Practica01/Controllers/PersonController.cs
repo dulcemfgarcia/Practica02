@@ -14,6 +14,7 @@ using System.Text.Json.Serialization;
 using System.Dynamic;
 using Classlibrary;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace Practica01.Controllers
 {
@@ -21,7 +22,19 @@ namespace Practica01.Controllers
     public class PersonController : Controller
     {
         public delegate Person Edition(Person person1, Person person2);
+        public delegate int dataEncode(Person person1, string company);
+
+        Huffman huffmanT = new Huffman();
         public IActionResult Index()
+        {
+            return View(Singleton.Instance.AVLnames);
+        }
+
+        public IActionResult codificacion()
+        {
+            return View("codificacion");
+        }
+        public IActionResult Encodeview()
         {
             return View(Singleton.Instance.AVLnames);
         }
@@ -116,5 +129,42 @@ namespace Practica01.Controllers
             Singleton.Instance.AVLnames.Delete(nuevaPersona, nuevaPersona.dpiComparer);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EncontrarDPICodificado(string encodeData)
+        {
+            Singleton.Instance.AVLnames.Encoded.Clear();
+            try
+            {
+                dataEncode validate = Person.dataEncode;
+                if (encodeData == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    Singleton.Instance.AVLnames.InOrder2(validate, encodeData);
+                    for(int i = 0; i < Singleton.Instance.AVLnames.CompaniesTree.Count; i++)
+                    {
+                        string final = "";
+                        string concatenado = encodeData+""+Singleton.Instance.AVLnames.CompaniesTree[i].dpi;
+                        huffmanT.Build(concatenado);
+                        BitArray encoded = huffmanT.Encode(concatenado);
+                        foreach(bool bit in encoded)
+                        {
+                            final = final+""+((bit ? 1 : 0) + "");
+                        }
+                        Singleton.Instance.AVLnames.Encoded.Add(final);
+                    }
+                    return RedirectToAction(nameof(Encodeview));
+                }
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
     }
 }

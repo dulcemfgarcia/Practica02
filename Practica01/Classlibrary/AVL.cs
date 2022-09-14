@@ -11,6 +11,9 @@ namespace Classlibrary
         public Node<T> root;
         public List<T> TreeList;
         public List<T> SearchTree;
+        public List<T> CompaniesTree;
+        public List<T> Decoded; //dpi decodificados
+        public List<string> Encoded; //dpi codificados
         public int rotations = 0;
         public int height = 0;
         public int NodeCounter { get; set; }
@@ -20,6 +23,9 @@ namespace Classlibrary
             root = null;
             TreeList = new List<T>();
             SearchTree = new List<T>();
+            CompaniesTree = new List<T>();
+            Encoded = new List<string>();
+            Decoded = new List<T>();
         }
 
 
@@ -304,10 +310,12 @@ namespace Classlibrary
             if (aux == null || SearchNode.value == null)
             {
                 SearchTree.Clear();
+                //SearchTree.Clear();
             }
             else
             {
                 SearchTree.Add(ReSearch(root, delegate1, SearchNode).value);
+                //SearchTree.Add(ReSearch(root, delegate1, SearchNode).Valor);
             }
         }
 
@@ -340,6 +348,30 @@ namespace Classlibrary
                 }
             }
             return Output;
+        }
+        public void InOrder2(Delegate delegate1, string company)
+        {
+            CompaniesTree.Clear();
+            research(root, delegate1, company);
+        }
+
+        public void research(Node<T> r, Delegate delegate1, string company)
+        {
+
+            if (r != null)
+            {
+                if (Convert.ToInt32(delegate1.DynamicInvoke(r.value, company)) == 0)
+                {
+                    CompaniesTree.Add(r.value);
+                }
+                research(r.LeftNode, delegate1, company);
+                //TreeList.Add(r.value);
+                if (Convert.ToInt32(delegate1.DynamicInvoke(r.value, company)) == 0)
+                {
+                    CompaniesTree.Add(r.value);
+                }
+                research(r.RightNode, delegate1, company);
+            }
         }
 
         public void Patch(T value, Node<T> Search, Delegate delegate1, Delegate delegate2)
